@@ -1,0 +1,68 @@
+<html>
+<head>
+<!-- <title>W3.CSS Template</title> -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/w3.css" %}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+<!-- <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script> -->
+<link rel="stylesheet" type="text/css" href="{% static "css/prettify.css" %}">
+<script type="text/javascript" src="{% static "js/google-code-prettify/prettify.js" %}"></script>
+<script>
+window.onload = (function(){ prettyPrint(); });
+</script>
+</head >
+
+<style>
+body, html {
+    height: 100%;
+    font-family: "Inconsolata", sans-serif;
+}
+.bgimg {
+    background-position: center;
+    background-size: cover;
+    background-image: url("{% static "imgs/home.jpg" %}");
+    min-height: 75%;
+}
+.menu {
+    display: none;
+}
+
+</style>
+
+<body onload="prettyPrint()">
+
+  <!-- Links (sit on top) -->
+  <div class="w3-top">
+    <div class="w3-row w3-padding w3-black">
+      <div class="w3-col s3">
+        <a href="#" class="w3-button w3-block w3-black">HOME</a>
+      </div>
+      <div class="w3-col s3">
+        <a href="#about" class="w3-button w3-block w3-black">Not Home</a>
+      </div>
+      <div class="w3-col s3">
+        <a href="#menu" class="w3-button w3-block w3-black">Resume</a>
+      </div>
+      <div class="w3-col s3">
+        <a href="#where" class="w3-button w3-block w3-black">Mail</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="w3-sand w3-grayscale w3-large"> -->
+
+<pre class="prettyprint lang-c">
+//Some sample text
+int main() {
+  for(int i = 0; i<10; i++){
+      //Do something
+      printf("Hello World");
+      exit(-1);
+  }
+}
+</pre>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- <title>W3.CSS Template</title> -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/w3.css" %}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+<!-- <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script> -->
+<link rel="stylesheet" type="text/css" href="{% static "css/prettify.css" %}">
+<script type="text/javascript" src="{% static "js/google-code-prettify/prettify.js" %}"></script>
+<script>
+window.onload = (function(){ prettyPrint(); });
+</script>
+</head >
+
+
+<style>
+body, html {
+    height: 100%;
+    font-family: "Inconsolata", sans-serif;
+}
+.bgimg {
+    background-position: center;
+    background-size: cover;
+    background-image: url("{% static "imgs/home.jpg" %}");
+    min-height: 75%;
+}
+.menu {
+    display: none;
+}
+
+</style>
+
+
+
+<body onload="prettyPrint()">
+
+
+
+<!-- Header with image -->
+<header class="bgimg w3-display-container w3-grayscale-min" id="home">
+  <div class="w3-display-bottomleft w3-center w3-padding-large w3-hide-small">
+    <span class="w3-tag">matrixisreal</span>
+  </div>
+  <div class="w3-display-middle w3-center">
+    <span class="w3-text-white" style="font-size:90px">paVan<br>KarThiK</span>
+  </div>
+  <div class="w3-display-bottomright w3-center w3-padding-large">
+    <span class="w3-text-white">or is it not?</span>
+  </div>
+</header>
+
+<!-- Add a background color and large text to the whole page -->
+<div class="w3-sand w3-light-gray w3-large">
+
+<!-- About Container -->
+<div class="w3-container" id="about">
+  <div class="w3-content" style="max-width:700px">
+    <h5 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">GSoC Week: 1</span></h5>
+    <p>  Hello World! This series of blogs is about how I pull my hairs out to complete the Gsoc Project of adding
+    support for <a href="http://matrix.org/">Matrix</a> to <a href="http://instantbird.com/">Instantbird<a>.
+    You can read the abstract for the project
+    <a href="https://summerofcode.withgoogle.com/projects/#6473832528347136">here</a>,
+    and the complete project proposal <a>I then created tabtest.xml and tabtest.css (for binding) in order to test it out.here</a>[link to be updated].
+    </p>
+    <p>    Well, the plan for the first two weeks was to implement Direct Conversations.
+    Matrix manages direct rooms in a slightly different way from Instantbird.
+    Matrix differentiates Direct and Group Chats by flagging DM Rooms with "is_direct", allows to open DM conversations with same
+    interlocutor and allow inviting others users to DMs.
+    Whereas Instantbird has different classes for DMs and Group Chats, doesn't allow multiple DMs with same user,
+    and no inviting other users to Direct Chats.
+    So, all I have do is to make both of them work, without breaking any of them.</p>
+
+    <p>    The first few days went experimenting and creating different rooms with different matrix users(thereby spamming everyone with invites)
+    Creating a Direct Conversation Room involves mainly two things.
+    1. creating the room with createRoom({is_direct: true})
+    2. get/set the accountDate and update the Dm</p>
+
+    <pre class="prettyprint">
+     <code class="lang-js">
+        function myFunction() {
+          var x = document.getElementById("frm1").action;
+          document.getElementById("demo").innerHTML = x;
+        }
+    </code>
+    </pre>
+
+    <p>In addition to our full espresso and brew bar menu, we serve fresh made-to-order breakfast and lunch sandwiches, as well as a selection of sides and salads and other good stuff.</p>
+    <div class="w3-panel w3-leftbar w3-light-grey">
+      <p><i>So the Bottom Line.</i></p>
+      <p>Chef, Coffeeist and Owner: Liam Brown</p>
+    </div>
+    <p><strong>Opening hours:</strong> everyday from 6am to 5pm.</p>
+    <p><strong>Address:</strong> 15 Adr street, 5015, NY</p>
+  </div>
+</div>
+
+
+<!-- Contact/Area Container -->
+<div class="w3-container" id="where" style="padding-bottom:32px;">
+  <div class="w3-content" style="max-width:700px">
+    <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">WHERE TO FIND US</span></h5>
+    <p><span class="w3-tag">FYI!</span> We offer full-service catering for any event, large or small. We understand your needs and we will cater the food to satisfy the biggerst criteria of them all, both look and taste.</p>
+    <p><strong>Reserve</strong> a table, ask for today's special or just send us a message:</p>
+
+  </div>
+</div>
+
+<!-- End page content -->
+</div>
+
+</body>
+</html>
