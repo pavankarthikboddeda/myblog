@@ -30,6 +30,23 @@ body, html {
     display: none;
 }
 
+
+/*! Color themes for Google Code Prettify | MIT License | github.com/jmblog/color-themes-for-google-code-prettify */
+ol.linenums { margin-top: 0; margin-bottom: 0 } /* IE indents via margin-left */
+li.L0,
+li.L1,
+li.L2,
+li.L3,
+li.L5,
+li.L6,
+li.L7,
+li.L8 { list-style-type: none /* <<< THIS is the cause! */ }
+/* Alternate shading for lines */
+li.L1,
+li.L3,
+li.L5,
+li.L7,
+li.L9 { background: #eee }
 </style>
 
 <body onload="prettyPrint()">
@@ -54,7 +71,7 @@ body, html {
 
   <!-- <div class="w3-sand w3-grayscale w3-large"> -->
 
-<pre class="prettyprint lang-c">
+<pre class="prettyprint ">
 //Some sample text
 int main() {
   for(int i = 0; i<10; i++){
