@@ -93,37 +93,67 @@ li.L9 { background: #eee }
     and no inviting other users to Direct Chats.
     So, all I have do is to make both of them work, without breaking any of them.</p>
 
-    <p>    The first few days went experimenting and creating different rooms with different matrix users(thereby spamming everyone with invites)
-    Creating a Direct Conversation Room involves mainly two things.
-    1. creating the room with createRoom({is_direct: true})
-    2. get/set the accountDate and update the Dm</p>
+    <p>    The first few days went experimenting and creating different DM rooms with different matrix
+       users(thereby spamming everyone with invites).
+    Creating a Direct Conversation Room involves mainly two things.</p>
+    <p>1. creating the room with</p> <pre class="prettyprint">createRoom({ is_direct: true, invite: [otherguy] })</pre>
+    <p>2. get/set the accountData and update the DMMap { userId -> [roomList] } .</p>
+    <p>This is basically doing this: </p>
+<pre class="prettyprint linenums lang-js">
+function getsetAccountData(user, DMRoomId) {
+  let event = account._client.getAccountData('m.direct');
+  let dmRoomMap = event.getContent();
+  const roomList = dmRoomMap[user.userId];
+  roomList.push(DMRoomId);
+  dmRoomMap[user.userId] = roomList;
+  account._client.setAccountData('m.direct', dmRoomMap);
+}
+</pre>
 
-<pre class="prettyprint linenums">
-function myFunction() {
-  var x = document.getElementById("frm1").action;
-  document.getElementById("demo").innerHTML = x;
-}</pre>
-
-    <p>In addition to our full espresso and brew bar menu, we serve fresh made-to-order breakfast and lunch sandwiches, as well as a selection of sides and salads and other good stuff.</p>
+    This took me a while to figure this out as there wasn't any documentation about this.
+    Things got more clear when I shot a mail to Kegan from Matrix who was kind enough to give
+    a clear explanation and I quote.
     <div class="w3-panel w3-leftbar w3-light-grey">
-      <p><i>So the Bottom Line.</i></p>
-      <p>Chef, Coffeeist and Owner: Liam Brown</p>
-    </div>
-    <p><strong>Opening hours:</strong> everyday from 6am to 5pm.</p>
-    <p><strong>Address:</strong> 15 Adr street, 5015, NY</p>
+      <p><i>
+<p>- Alice and Bob have never spoken to each other before.</p>
+<p>- Alice creates a new DM room and invites Bob. -> createRoom({is_direct: true, invite: "Bob"})</p>
+<p>- Bob's client receives the invite and notices the "hint" that Alice wants this to be a DM room.</p>
+<p>- Bob accepts the invite.</p>
+<p>- Bob's client sets this room as the DM room by setting the relevant value in accountData.</p>
+<p>- Alice's client has not yet set this room as the DM room in her accountData.</p>
+
+<p>Alice needs to ALSO set the relevant value in accountData when she creates the room, in order for it to appear under "Direct Chat". To summarise :
+</p>
+<p>When making a new DM:</p>
+<p>- Create a new room with is_direct: true</p>
+<p>- Update account data with this new room.</p>
+
+<p>When receiving an invite with the "is_direct" hint:</p>
+<p>- Accept the invite.</p>
+<p>- Update account data with this new room.</p></i></p>
+</div>
+<p>    So, the task is to handle this under the instantbird infrastructure, which I guess is
+    pretty much finished by now, but it might require few review cycles.</p>
+
+<p>    Another tricky part was dealing with client's asynchronous calls. An event might take place in a room might
+    not be updated in the Instantbird data yet. So the task is to write code to smoothly handle these.</p>
+
+<p>    Along with these I have been working on things like handling invites, autojoining previous Rooms etc about
+    which I shall be writing in the next blog.</p>
+
   </div>
 </div>
 
 
 <!-- Contact/Area Container -->
-<div class="w3-container" id="where" style="padding-bottom:32px;">
+<!-- <div class="w3-container" id="where" style="padding-bottom:32px;">
   <div class="w3-content" style="max-width:700px">
     <h5 class="w3-center w3-padding-48"><span class="w3-tag w3-wide">WHERE TO FIND US</span></h5>
     <p><span class="w3-tag">FYI!</span> We offer full-service catering for any event, large or small. We understand your needs and we will cater the food to satisfy the biggerst criteria of them all, both look and taste.</p>
     <p><strong>Reserve</strong> a table, ask for today's special or just send us a message:</p>
 
   </div>
-</div>
+</div> -->
 
 <!-- End page content -->
 </div>
