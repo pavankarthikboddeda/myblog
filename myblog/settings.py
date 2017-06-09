@@ -29,6 +29,8 @@ ALLOWED_HOSTS = ['139.59.41.219',
                  'www.pavankarthik.tk',
                  'vidya.tk',
                  'hello.vidya.tk',
+                 'pavankarthik.tk',
+                 'localhost',
                  '127.0.0.1' ]
 
 
