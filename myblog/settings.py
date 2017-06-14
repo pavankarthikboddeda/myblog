@@ -23,12 +23,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'sc&dmks!s)wcy0(f7hr5kf3v8ssn6$f_q1a35_pt_be+&=ia4@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['139.59.41.219',
                  'www.pavankarthik.tk',
                  'vidya.tk',
                  'hello.vidya.tk',
+                 'pavankarthik.tk',
+                 'localhost',
                  '127.0.0.1' ]
 
 
