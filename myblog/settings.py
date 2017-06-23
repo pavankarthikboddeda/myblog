@@ -31,7 +31,8 @@ ALLOWED_HOSTS = ['139.59.41.219',
                  'hello.vidya.tk',
                  'pavankarthik.tk',
                  'localhost',
-                 '127.0.0.1' ]
+                 '127.0.0.1',
+                 '192.168.0.102' ]
 
 
 # Application definition

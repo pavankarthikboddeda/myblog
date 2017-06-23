@@ -3,7 +3,7 @@
 <head>
 <!-- <title>W3.CSS Template</title> -->
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
 
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static "css/w3.css" %}">
@@ -161,6 +161,97 @@ function getsetAccountData(user, DMRoomId) {
   </div>
 </div>
 
+
+<div class="w3-container" id="about">
+  <div class="w3-content" style="max-width:700px">
+    <h5 class="w3-center w3-padding-64"><span class="w3-tag w3-wide">Finishing DMs</span></h5>
+    <p>Okay it has been a bit late since my last blogpost.
+    I have fixed most of the loose ends of handling DMs and
+    worked on a bunch of stuff like autojoins,  handling
+    invites and topic of the room.</p>
+
+
+    <p>Patrik and I have decided on few mentionable things which isn't
+    exactly consistent with matrix.</p>
+
+    <p>1. Matrix allows a user to have multiple direct rooms with the same user,
+     which isn't very feasible/preferable with the instantbird architecture.
+     So we choose the most recently used room incase of multiple rooms.</p>
+
+    <p>2. While autojoining rooms upon startup we just join the group chats.</p>
+
+    <p>3. For now whenever the user gets an invitation, we just auto accept the
+     invitation, join the room and create the conversation.
+      Well, this is just a first step for handling invites.</p>
+
+    <p>Coming to the some of the implementational details,</p>
+    <p><strong>DMs</strong></p>
+    <p>Whenever the client clicks on a participant, createConversation
+     is called, and three possibilities arise.</p>
+    <p>1. Conversation exists:</p>
+    <p>Then we just return the existing conversation.</p>
+    <p>2. A DM room with the user already exists.</p>
+    <p>So we need to check the list of rooms of the other guy and as well as the user
+    in the DMRoomMap of accountData, and we chose the most Recent Room, by examining the
+    timestamps of the latest events in the timelines of the rooms. We check in our user's
+    room list also because clients associate the userRoom to the account's Id whenever they
+    are invited to a new DM ROom.(Ex: Riot.)</p>
+    <p>3. If neither of the above happens, that means there's is no room with the user, so
+    we shall createRoom, setting the is_direct hint, and inviting the user. And don't forget to
+    getsetAccountData, updating the DMRoomMap adding the newling created room to the participant's
+    ID.</p>
+
+    <p><strong>Auto Creating Conversations at startup.</strong></p>
+
+    <p>A "Room" event is fired for all the rooms the user has already joined after the client is
+    synced. We check if this room is a Dm Room by examining the DMRoomMap and create the conversations
+    just for the non DM Rooms.</p>
+    <p>There was an interesting problem.Whenever createRoom is called, the "Room" event is fired
+    even before the createRoom returns. But there isn't a good way to tie up the room event and
+    the room created. So we have to have a flag which keeps track if or not the createRoom
+    returned and we check for this flag to not create Conversation here for the room just created.</p>
+
+    <p><strong>Handling Invites.</strong></p>
+    <p>A "Room" event is fired also when the user is invited to a room. We identify this room
+    checking if the membership of the user in the room is "invite". Right now we auto join the
+    room and create Conversation. And also update the DMRoomMap in accountData if we see a
+    is_direct hint. </p>
+
+    <p><strong>Topic</strong></p>
+    <p>There isn't much to talk about setting topic.
+    Just three things.</p>
+    <p>We just set the topic while joining the room to the room's topic if there is any using,</p>
+
+<pre class="prettyprint linenums lang-js">
+conv.setTopic(roomState.getStateEvents('m.room.topic', '')
+    .getContent().topic);
+</pre>
+
+    <p>It took a while to figure this call as there wasn't any documentation.</p>
+
+    <p>Listen for topic change event "m.room.topic"  update the topic in our client.</p>
+
+    <p>When our user tries to change the topic using /topic,
+    Check if our user has the permissions to set topic if yes,
+    set the topic and if no,  give a warning message.</p>
+
+<pre class="prettyprint linenums lang-js">
+set topic(aTopic) {
+  // Warn if user doesn't have the permissions.
+  let roomState = conv.room.roomState
+  if (roomState.maySendEvent("m.room.topic", userId)) {
+    client.setRoomTopic(conv._roomId, aTopic);
+  } else {
+    WARN("can't set Topic");
+  }
+}
+</pre>
+
+    <p>THe next few weeks I'll be working on stuff I have mentioned on my Part2 of the
+     proposal, Typing Notifications, Handling notice messages</p>
+
+  </div>
+</div>
 
 <!-- Contact/Area Container -->
 <div class="w3-container" id="where" style="padding-bottom:100px;">
